@@ -4,8 +4,7 @@
 
 
 
-![alt_text](figs/dataset0.png)
-![alt_text](figs/dataset2.png)
+![alt_text](figs/dataset0.png) ![alt_text](figs/dataset2.png)
 
 
 by: 
