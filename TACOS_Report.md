@@ -3,8 +3,11 @@
 # Semantic segmentation on the TACO Dataset
 
 
-:-------------------------:|:-------------------------:
-![alt_text](figs/dataset0.png)  |  ![alt_text](figs/dataset2.png)
+<p float="left">
+  <img src="figs/dataset0.png" width="100" />
+  <img src="figs/dataset1.png" width="100" /> 
+  <img src="figs/dataset2.png" width="100" />
+</p>
 ![alt_text](figs/dataset0.png) ![alt_text](figs/dataset2.png)
 
 
