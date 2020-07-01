@@ -10,6 +10,8 @@
 </p>
 
 
+![alt_text](figs/unet_training_alldataset10eps_convergesat0p3.png "Learning curve U-net")
+
 by: 
 
 * Vera Hoveling, V.T.Hoveling@student.tudelft.nl, 4591941
