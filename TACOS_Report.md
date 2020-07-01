@@ -713,20 +713,20 @@ We use Torchvision’s Mask R-CNN implementation[^12] (t-Mask R-CNN). This imple
 
 ## Training
 
-During preprocessing we already generated segmentation masks from the TACO annotations. However, t-Mask R-CNN expects more. In the following, H is the height of the image, W is the width of the image, and M is the number of masks.
+During preprocessing we already generated segmentation masks from the TACO annotations. However, t-Mask R-CNN expects more. In the following, `H` is the height of the image, `W` is the width of the image, and `M` is the number of masks.
 
 
 
-*   image: a torch tensor of size (H, W)
-*   target: a dict containing the following fields:
-    *   boxes: the coordinates of the M bounding boxes in [x0, y0, x1, y1] format, ranging from 0 to W and 0 to H
-    *   labels: the label for each bounding box
-    *   image_id: an image identifier
-    *   area: the area of each bounding box
-    *   iscrowd: instances with iscrowd=True will be ignored during evaluation.
-    *   masks: the segmentation mask for each object
+*   `image`: a `torch tensor` of size `(H, W)`
+*   `target`: a `dict` containing the following fields:
+    *   `boxes`: the coordinates of the `M` bounding boxes in `[x0, y0, x1, y1]` format, ranging from `0` to `W` and `0` to `H`
+    *   `labels`: the label for each bounding box
+    *   `image_id`: an image identifier
+    *   `area`: the area of each bounding box
+    *   `iscrowd`: instances with `iscrowd=True` will be ignored during evaluation.
+    *   `masks`: the segmentation mask for each object
 
-boxes, labels, and area are all calculated from the masks, iscrowd is always false, and image_id is given.
+`boxes`, `labels`, and `area` are all calculated from the `masks`, `iscrowd` is always `False`, and `image_id` is given.
 
 While it seems straightforward, training t-Mask R-CNN at first was not an easy feat. The loss of the network would invariably blow up to infinity, without clear cause. Inspecting images did not show a clear cause: there was no visual difference between images that were used in the network right before the loss blew up and images that were used earlier.
 
@@ -930,7 +930,7 @@ As a baseline, it is interesting to see how t-Mask R-CNN performs without any fi
 </table>
 
 
-Table [X]: The performance of Mask R-CNN before fine-tuning.
+Table 3: The performance of Mask R-CNN before fine-tuning.
 
 As you can see, the answer is: not very well. The average precision and recall are 0 at any threshold or bounding box size. If we look at some predicted masks we also see that they are not accurate.
 
@@ -939,7 +939,8 @@ As you can see, the answer is: not very well. The average precision and recall a
 <p id="gdcalert2" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image2.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert3">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
 
 
-![alt_text](images/image2.png "image_tooltip")
+![The performance of Mask R-CNN without finetuning.](figs/untrained_maskrcnn.png "The performance of Mask R-CNN without finetuning.")
+Figure 8: An image, mask, and predicted mask from the untrained Mask R-CNN.
 
 
 The network can already see that there is _something_, but what that something is, it hasn’t yet learned!
@@ -1110,19 +1111,13 @@ Next, we train for 30 epochs. We used a 80/10/10 training/validation/testing spl
 </table>
 
 
-Table [X]: The performance of Mask R-CNN after being fine-tuned for 30 epochs.
+Table 4: The performance of Mask R-CNN after being fine-tuned for 30 epochs.
 
 The network is learning! Some output:
 
 
-
-<p id="gdcalert3" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image3.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert4">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/image3.png "image_tooltip")
-
-
-Figure X: An image, mask, and predicted mask predicted by Mask R-CNN trained on the dataset for 30 epochs.
+![The performance of Mask R-CNN after finetuning for 30 epochs.](figs/maskrcnn_30epochs.png "The performance of Mask R-CNN after finetuning for 30 epochs.")
+Figure 9: An image, mask, and predicted mask predicted by Mask R-CNN trained on the dataset for 30 epochs.
 
 Some observations: the network is mainly good at predicting when there is one large-ish object in the image, and it mainly predicts bottles and plastic bags and wrappers. This is not so strange, because as we can see from Figure 2, these are some of the most common classes.
 
@@ -1132,24 +1127,11 @@ Some observations: the network is mainly good at predicting when there is one la
 At this point in time, we wanted to see whether using data augmentation could improve the predictions of our model. We had seen that for DeepLab, random cropping alone did not help to improve the results much. Therefore, we added more augmentations: additive Gaussian noise, Gaussian blur, a horizontal flip (applied with probability 0.5) and a vertical flip (applied with probability 0.5). These augmentations are also used by the authors of TACO in their own implementation of Mask R-CNN, and correspond to variations you would also expect to see ‘in the wild’. Figure [X] shows an augmented and a non-augmented version of an image.
 
 
+![An augmented image/mask pair.](figs/data_aug.png "An augmented image/mask pair.")
+![An un-augmented image/mask pair.](figs/data_aug_non.png "An un-augmented image/mask pair.")
+Figure 10: An augmented and non-augmented image side by side. The top image is augmented.
 
-<p id="gdcalert4" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image4.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert5">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/image4.png "image_tooltip")
-
-
-
-
-<p id="gdcalert5" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image5.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert6">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/image5.png "image_tooltip")
-  
-
-Figure [X]: An augmented and non-augmented image side by side.
-
-We trained the model for 17 epochs with data augmentations. Our goal was to train for 30 epochs again, but we found that for an unknown reason, Google Colab (where we trained our models) disconnected after 5-8 epochs. Therefore, in light of time, we eventually decided to stop training at 17 epochs. We feel this decision is justified, since the average precision and average recall had not improved in several epochs. The performance of the model trained with data augmentation can be seen in Table [X].
+We trained the model for 17 epochs with data augmentations. Our goal was to train for 30 epochs again, but we found that for an unknown reason, Google Colab (where we trained our models) disconnected after 5-8 epochs. Therefore, in light of time, we eventually decided to stop training at 17 epochs. We feel this decision is justified, since the average precision and average recall had not improved in several epochs. The performance of the model trained with data augmentation can be seen in Table 5.
 
 
 <table>
@@ -1310,21 +1292,17 @@ We trained the model for 17 epochs with data augmentations. Our goal was to trai
    </td>
   </tr>
 </table>
-
+Table 5: The performance of Mask R-CNN after being fine-tuned for 18 epochs on an augmented dataset.
 
 As you can see, the performance with data augmentation is pretty similar to the performance without data augmentation. At first, this confused us, but then (while writing this blog), we realised we had a mistake: we used a DataLoader that samples _without replacement_. This means that the augmented images were not actually _added_ to the dataset, but came _in place of it_. Instead of increasing our dataset, we merely altered it, making it harder for the network to learn salient features. Sadly, this means we are not able to draw conclusions on the effectiveness of the data augmentation, but it is an important lesson on carefully defining your parameters.
 
-Regardless, a predicted image can be seen in Figure [X]. Visually, the mask seems similar in quality to that of the model trained on the regular dataset.
+Regardless, a predicted image can be seen in Figure 11. Visually, the mask seems similar in quality to that of the model trained on the regular dataset.
 
 
 
-<p id="gdcalert6" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image6.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert7">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
 
-
-![alt_text](images/image6.png "image_tooltip")
-
-
-Figure X: An image, mask, and predicted mask predicted by Mask R-CNN trained on an augmented dataset for 30 epochs.
+![ An image, mask, and predicted mask predicted by Mask R-CNN trained on the dataset for 30 epochs](figs/maskrcnn_aug_pred.png " An image, mask, and predicted mask predicted by Mask R-CNN trained on the dataset for 30 epochs")
+Figure 11: An image, mask, and predicted mask predicted by Mask R-CNN trained on the dataset for 30 epochs.
 
 
 ### Discussion
