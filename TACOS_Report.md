@@ -1124,7 +1124,7 @@ Some observations: the network is mainly good at predicting when there is one la
 
 ### Augmented 17 epochs
 
-At this point in time, we wanted to see whether using data augmentation could improve the predictions of our model. We had seen that for DeepLab, random cropping alone did not help to improve the results much. Therefore, we added more augmentations: additive Gaussian noise, Gaussian blur, a horizontal flip (applied with probability 0.5) and a vertical flip (applied with probability 0.5). These augmentations are also used by the authors of TACO in their own implementation of Mask R-CNN, and correspond to variations you would also expect to see ‘in the wild’. Figure [X] shows an augmented and a non-augmented version of an image.
+At this point in time, we wanted to see whether using data augmentation could improve the predictions of our model. We had seen that for DeepLab, random cropping alone did not help to improve the results much. Therefore, we added more augmentations: additive Gaussian noise, Gaussian blur, a horizontal flip (applied with probability 0.5) and a vertical flip (applied with probability 0.5). These augmentations are also used by the authors of TACO in their own implementation of Mask R-CNN, and correspond to variations you would also expect to see ‘in the wild’. Figure 10 shows an augmented and a non-augmented version of an image.
 
 
 ![An augmented image/mask pair.](figs/data_aug.png "An augmented image/mask pair.")
@@ -1322,21 +1322,21 @@ For this experiment, we adapted our PyTorch U-net implementation we made for the
 
 ### Training
 
-Training U-Net for the TACO dataset turned out to be a bumpy road to nowhere. After some initial training rounds, using SGD with a learning rate of 0.0001 and momentum of 0.99, the output seemed to converge at a consistent ‘all is background-class’ prediction for each and every pixel. The learning curve also showed consistent convergence of the validation loss around a loss of about 0.3, this can be observed in Figure [X]
+Training U-Net for the TACO dataset turned out to be a bumpy road to nowhere. After some initial training rounds, using SGD with a learning rate of 0.0001 and momentum of 0.99, the output seemed to converge at a consistent ‘all is background-class’ prediction for each and every pixel. The learning curve also showed consistent convergence of the validation loss around a loss of about 0.3, this can be observed in Figure 12
 
 ![alt_text](figs/unet_training_alldataset10eps_convergesat0p3.png "Learning curve U-net")
 
-Figure [X]: learning curve of U-net on the TACO dataset,the validation loss converges around 0.3.
+Figure 12: learning curve of U-net on the TACO dataset,the validation loss converges around 0.3.
 
-Unsure if perhaps something had gone wrong in adapting the implementation we tried to overfit the network on a single image, which did work. The network was completely able to reproduce a single output, as can be seen in Figure [X]. The top image is the original label, the bottom is the network prediction after overfitting of a dataset of only this image (due to the unpadded convolutions, the output is cropped to some extent).
+Unsure if perhaps something had gone wrong in adapting the implementation we tried to overfit the network on a single image, which did work. The network was completely able to reproduce a single output, as can be seen in Figure 13. The top image is the original label, the bottom is the network prediction after overfitting of a dataset of only this image (due to the unpadded convolutions, the output is cropped to some extent).
 
 ![Overfitted output](figs/unet_overfitted.png "Overfitted output")
 
-Figure [X]: Segmentation mask produced by U-Net overfit one a single image. The top image is the ground-truth segmentation mask, the bottom image is the network prediction.
+Figure 13: Segmentation mask produced by U-Net overfit one a single image. The top image is the ground-truth segmentation mask, the bottom image is the network prediction.
 
 At first we tried to remedy this issue using different optimizers during training, such as Adadelta, but to no avail. Tweaking the learning rate and the learning rate scheduler did not change the all-background predictions into anything more meaningful either. 
 
-At this point, we started to suspect that the large class imbalance in the dataset, combined with the large variety within classes, was hindering the learning. For example, the largest superclass, ‘Plastic bag & wrapper’, contains garbage bags, potato chips bags, transparent plastic bags and small pieces of wrapper. These are all very different yet belong to the same class, of which not too many samples were present anyway: even though it is the largest superclass, it contains a little over 400 images. In addition, in a lot of images, the annotated parts are very small, see Figure [X].
+At this point, we started to suspect that the large class imbalance in the dataset, combined with the large variety within classes, was hindering the learning. For example, the largest superclass, ‘Plastic bag & wrapper’, contains garbage bags, potato chips bags, transparent plastic bags and small pieces of wrapper. These are all very different yet belong to the same class, of which not too many samples were present anyway: even though it is the largest superclass, it contains a little over 400 images. In addition, in a lot of images, the annotated parts are very small, see Figure 14.
 
 <p float="left">
 
@@ -1346,7 +1346,7 @@ At this point, we started to suspect that the large class imbalance in the datas
 
 </p>
 
-Figure X: Examples from TACO with very small litter items.
+Figure 14: Examples from TACO with very small litter items.
 
 After inspecting such images, one might see why the network would find a comfortable local minimum when predicting “all background” for each sample. We started to suspect that U-Net, with its large number of parameters was a bit too much of a beast for the delicately composed and rather small TADO dataset. We therefore augmented the dataset, using random crops and random rotations. Unfortunately, this did not help either. The validation loss continued to settle for roughly a 0.3 loss and upon inspection, all predictions on the test set would still be “all background”. Learning with data augmentation on a single class did not bring any relief either. We therefore have to conclude that the U-Net architecture, although robust, generalizable and designed for smaller datasets, is an insufficient architecture to capture the intricacies of this small dataset with large variety.
 
