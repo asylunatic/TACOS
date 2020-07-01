@@ -4,9 +4,9 @@
 
 
 
-![alt_text](figs/dataset0)
-![alt_text](figs/dataset1)
-![alt_text](figs/dataset2)
+![alt_text](figs/dataset0.png)
+![alt_text](figs/dataset1.png)
+![alt_text](figs/dataset2.png)
 
 
 by: 
