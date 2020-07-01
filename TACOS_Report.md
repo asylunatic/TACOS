@@ -1,16 +1,63 @@
+<!-- Copy and paste the converted output. -->
+
+<!-----
+NEW: Check the "Suppress top comment" option to remove this info from the output.
+
+Conversion time: 7.08 seconds.
+
+
+Using this Markdown file:
+
+1. Paste this output into your source file.
+2. See the notes and action items below regarding this conversion run.
+3. Check the rendered output (headings, lists, code blocks, tables) for proper
+   formatting and use a linkchecker before you publish this page.
+
+Conversion notes:
+
+* Docs to Markdown version 1.0β28
+* Wed Jul 01 2020 05:10:37 GMT-0700 (PDT)
+* Source doc: Semantic segmentation on the TACO Dataset
+* Tables are currently converted to HTML tables.
+* This document has images: check for >>>>>  gd2md-html alert:  inline image link in generated source and store images to your server. NOTE: Images in exported zip file from Google Docs may not appear in  the same order as they do in your doc. Please check the images!
+
+
+WARNING:
+You have 8 H1 headings. You may want to use the "H1 -> H2" option to demote all headings by one level.
+
+----->
+
+
+<p style="color: red; font-weight: bold">>>>>>  gd2md-html alert:  ERRORs: 0; WARNINGs: 1; ALERTS: 11.</p>
+<ul style="color: red; font-weight: bold"><li>See top comment block for details on ERRORs and WARNINGs. <li>In the converted Markdown or HTML, search for inline alerts that start with >>>>>  gd2md-html alert:  for specific instances that need correction.</ul>
+
+<p style="color: red; font-weight: bold">Links to alert messages:</p><a href="#gdcalert1">alert1</a>
+<a href="#gdcalert2">alert2</a>
+<a href="#gdcalert3">alert3</a>
+<a href="#gdcalert4">alert4</a>
+<a href="#gdcalert5">alert5</a>
+<a href="#gdcalert6">alert6</a>
+<a href="#gdcalert7">alert7</a>
+<a href="#gdcalert8">alert8</a>
+<a href="#gdcalert9">alert9</a>
+<a href="#gdcalert10">alert10</a>
+<a href="#gdcalert11">alert11</a>
+
+<p style="color: red; font-weight: bold">>>>>> PLEASE check and correct alert issues and delete this message and the inline alerts.<hr></p>
+
 
 
 # Semantic segmentation on the TACO Dataset
 
+&lt;p float="left">
 
-<p float="left">
-  <img src="figs/dataset0.png" width="30%" />
-  <img src="figs/dataset1.png" width="30%" /> 
-  <img src="figs/dataset2.png" width="30%" />
-</p>
+  &lt;img src="figs/dataset0.png" width="30%" />
 
+  &lt;img src="figs/dataset1.png" width="30%" /> 
 
-![alt_text](figs/unet_training_alldataset10eps_convergesat0p3.png "Learning curve U-net")
+  &lt;img src="figs/dataset2.png" width="30%" />
+
+&lt;/p>
 
 by: 
 
@@ -23,76 +70,66 @@ by:
 
 # Introduction
 
-Although Pixar’s animators did surely not intend to lay out a roadmap to dystopia, since the release of WALL-E in 2008, we have steadily kept moving toward the hellscape that was painted in the feature film: a world covered in trash. Projections are that by 2025, we will produce double the amount of garbage that was produced in 2012 [1]:
+Although Pixar’s animators did surely not intend to lay out a roadmap to dystopia, since the release of WALL-E in 2008, we have steadily kept moving toward the hellscape that was painted in the feature film: a world covered in trash. Projections are that by 2025, we will produce double the amount of garbage that was produced in 2012[^1].
 
-     (2015, 18 May). U-Net: Convolutional 
-
-(citation from: What a waste: a global review of solid waste management by Hoornweg, Daniel and Bhada-Tata, Perinaz, 2012). 
-
-However, it is not quite time to despair _yet_. Progress was also made on another prominent feature of WALL-E’s world: robots! A plethora of waste-collecting robots and machinery is being developed ([https://mymodernmet.com/trash-collecting-robot-chicago-river/](https://mymodernmet.com/trash-collecting-robot-chicago-river/), [https://www.kickstarter.com/projects/wildmile/trash-cleaning-robot-controlled-by-you](https://www.kickstarter.com/projects/wildmile/trash-cleaning-robot-controlled-by-you), the ocean cleanup, roombas) in attempts to engineer ourselves out of our self-inflicted mess.
+However, it is not quite time to despair _yet_. Progress was also made on another prominent feature of WALL-E’s world: robots! A plethora of waste-collecting robots and machinery is being developed [^2] [^3] [^4], in attempts to engineer ourselves out of our self-inflicted mess.
 
 With this blog post, we hope to make our own small contribution. We investigate the performance of three popular image segmentation models on the task of segmenting images of various kinds of litter. In particular, we look at whether data augmentation can help these models perform better, without necessitating a larger base dataset.
-
-~~ We present our findings on the application of deep learning computer vision techniques for trash detection. This should enable future WALL-E’s to distinguish trash from treasure and detect litter in varying circumstances.~~
-
-~~This document details our studies of semantic segmentation on a dataset of annotated trash images, the TACO Dataset. We have trained on the dataset with three different models: DeepLab, Mask-RCNN and Unet. We will detail the dataset and it’s intricacies and the training process and results of each model. We conclude with a comparison of the models and some recommendation for further development of the TACO dataset.~~
 
 Code and pre-trained models are available for evaluation purposes. 
 
 
 # TACO Dataset 
 
-For this project, we use the TACO dataset. It is, in one word, trash. Literally: TACO stands for Trash Annotations in Context. It currently consists of 1500 photos of litter taken in diverse environments, with 4784 total annotations. Together these form, in the words of TACO’s creators, “an open image dataset of waste in the wild”. The dataset was set up without any funding, to enable AI to tackle waste-related environmental concerns. Think of drones surveying trash, anti-littering video surveillance, real-life WALL-Es roaming the streets.
+For this project, we use the TACO dataset[^5]. It is, in one word, trash. Literally: TACO stands for Trash Annotations in Context. It currently consists of 1500 photos of litter taken in diverse environments, with 4784 total annotations. Together these form, in the words of TACO’s creators, “an open image dataset of waste in the wild”. The dataset was set up without any funding, to enable AI to tackle waste-related environmental concerns. Think of drones surveying trash, anti-littering video surveillance, real-life WALL-Es roaming the streets.
 
 
 
-<p id="gdcalert4" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image4.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert5">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+<p id="gdcalert1" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image1.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert2">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
 
 
-![alt_text](images/image4.png "image_tooltip")
+![alt_text](images/image1.png "image_tooltip")
 
 
-Figure [X]: An example of an image from TACO with the corresponding segmentation mask.
+Figure 1: An example of an image from TACO with the corresponding segmentation mask.
 
-TACO’s annotations are divided in 60 categories, of which 28 super (top) categories. It is important to note that there is a large class imbalance, both among the normal and the super categories. As you can see in Figure [X], there are more than 800 annotations of plastic bags and wrappers, but around 0 of batteries. Large class imbalances pose a challenge for deep learning models, because these models need enough examples of a class to learn a useful representation.
-
-
-
-<p id="gdcalert5" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image5.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert6">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+TACO’s annotations are divided in 60 categories, of which 28 super (top) categories. It is important to note that there is a large class imbalance, both among the normal and the super categories. As you can see in Figure 2, there are more than 800 annotations of plastic bags and wrappers, but around 0 of batteries. Large class imbalances pose a challenge for deep learning models, because these models need enough examples of a class to learn a useful representation.
 
 
-![alt_text](images/image5.png "image_tooltip")
+
+<p id="gdcalert2" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image2.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert3">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
 
 
-<p id="gdcalert6" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image6.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert7">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+![alt_text](images/image2.png "image_tooltip")
 
 
-![alt_text](images/image6.png "image_tooltip")
+<p id="gdcalert3" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image3.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert4">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
 
 
-Figure [X]: Number of annotations per (super) class in TACO. Image taken from [http://tacodataset.org/stats](http://tacodataset.org/stats).
+![alt_text](images/image3.png "image_tooltip")
 
-~~TACO’s authors note themselve note that “TACO is quite imbalanced but so is the open set.”~~[^1]~~. The “open set” here refers to all the trash present in the real world. The implication is that the real distribution is also not balanced and as such there is no conclude from that that there is no need to impose a fixed number of examples per class. It remains, however, a challenge when training, as one can read in the section on U-Net.~~
+
+Figure 2: Number of annotations per (super) class in TACO. Image taken from [http://tacodataset.org/stats](http://tacodataset.org/stats).
 
 
 ## Pre-processing
 
-TACO’s annotations are in the COCO format. However, none of the models we chose to investigate work with COCO images out-of-the-box. Therefore, some preprocessing steps were needed. We:
+TACO’s annotations are in the COCO format[^6] . However, none of the models we chose to investigate work with COCO images out-of-the-box. Therefore, some preprocessing steps were needed. We:
 
 
 
-*   Reduced the resolution of the images to [insert size] to achieve feasible training times.
+*   Reduced the resolution of the images such that their largest dimension is 640 pixels in size, while maintaining aspect ratios, to achieve feasible training times.
 *   Generated segmentation masks. In the COCO format, masks are given as a string of coordinates. However, our models take in an image tensor.
 *   Set class labels for “undefined” areas. Sometimes, an area in a mask can belong to multiple classes at the same time. This can lead to strange behavior, so we mark such areas with the label ‘255’, which is ignored at training time.
 
 
 # DeepLab
 
-DeepLab is a state-of-the-art convolutional neural network for semantic image segmentation that makes use of atrous (or dilated) convolution to increase the field-of-view of filters without increasing the computational cost or number of parameters **[CITE DEEPLAB]**. 
+DeepLab is a state-of-the-art convolutional neural network for semantic image segmentation that makes use of atrous (or dilated) convolution to increase the field-of-view of filters without increasing the computational cost or number of parameters[^7]. 
 
 Specifically, we used a PyTorch implementation of the DeepLabV3 model with a ResNet-50 backbone. Initially, the ResNet-101 backbone was used but due to memory constraints we had to switch to ResNet-50. The PyTorch model is pre-trained on a subset of COCO train2017, using the categories present in the Pascal VOC dataset **[CITE PYTORCH]**. 
 
-The model is fine-tuned on the TACO dataset using SGD with an learning rate of 0.001 and a learning rate policy of 0.001 * (1 - iterations / max iterations)^0.9 as described in **[CITE DEEPLAB]**. A batch size of 2 was used as opposed to the batch size of 16 used in **[CITE DEEPLAB]** due to memory constraints.
+The model is fine-tuned on the TACO dataset using SGD with an learning rate of 0.001 and a learning rate policy of 0.001 * (1 - iterations / max iterations)^0.9<sup>7</sup>. A batch size of 2 was used as opposed to the batch size of 16 used in the original paper due to memory constraints.
 
 
 ### Training
@@ -107,32 +144,32 @@ Desperate for improvement, we sought out other methods to counter the class imba
 
  
 
+<p id="gdcalert4" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image4.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert5">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+
+![alt_text](images/image4.png "image_tooltip")
+
+
+
+
+<p id="gdcalert5" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image5.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert6">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+
+![alt_text](images/image5.png "image_tooltip")
+
+
+
+
+<p id="gdcalert6" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image6.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert7">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+
+![alt_text](images/image6.png "image_tooltip")
+
+
 <p id="gdcalert7" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image7.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert8">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
 
 
 ![alt_text](images/image7.png "image_tooltip")
-
-
-
-
-<p id="gdcalert8" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image8.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert9">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/image8.png "image_tooltip")
-
-
-
-
-<p id="gdcalert9" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image9.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert10">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/image9.png "image_tooltip")
-
-
-<p id="gdcalert10" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image10.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert11">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/image10.png "image_tooltip")
 
 
 
@@ -165,7 +202,7 @@ boxes, labels, and area are all calculated from the masks, iscrowd is always fal
 
 While it seems straightforward, training t-Mask R-CNN at first was not an easy feat. The loss of the network would invariably blow up to infinity, without clear cause. Inspecting images did not show a clear cause: there was no visual difference between images that were used in the network right before the loss blew up and images that were used earlier.
 
-After a number of frustrating week, the problem turned out to be threefold:
+The problem turned out to be threefold:
 
 
 
@@ -180,6 +217,26 @@ At first, our solution was to filter out degenerate boxes and masks with label 2
 
 
 ### Evaluation metric
+
+The Torchvision detection package that t-Mask R-CNN belongs to comes with some useful utility methods for training and evaluation. The `evaluate` method returns the _average precision_ and _average recall_ over a given set of images at different thresholds and for different bounding box sizes. For a good explanation of these metrics, see [this blog post](https://blog.zenggyu.com/en/post/2018-12-16/an-introduction-to-evaluation-metrics-for-object-detection/). For now, it is enough to know that the _precision_ is a measure of how many true positive detections the network generated, divided by the sum of all true and false positives. In other words, what fraction of detections by the network is a _real_ detection?
+
+_Recall_ is defined as the number of true positives divided by the sum of the true positives and the false negatives. In other words: how many of the positive examples is the network able to retrieve? If you need a more intuitive illustration of precision and recall, click [here](https://medium.com/@formigone/intuitive-explanation-of-precision-and-recall-c6fba316afbe).
+
+For the more programmatically inclined among you, this pseudocode snippet may give some clarification.
+
+[pseudocode]
+
+def precision(tp, fp):
+
+  return tp / (tp + fp)
+
+def recall(tp, fn)
+
+return tp / (tp + fn)
+
+Whether or not an example counts as a true or a false positive depends on your _decision threshold_. _Average precision_ and _average recall_ are the precision and recall averaged over all relevant decision thresholds.
+
+For an even more intuitive take: there is a tradeoff between precision and recall, but in general higher is better.
 
 
 ### Untrained
@@ -206,14 +263,22 @@ IoU metric: segm
 ```
 
 
-The results are really bad.
+As you can see, the answer is: not very well. The average precision and recall are 0 at any threshold or bounding box size. If we look at some predicted masks we see that they are not very good.
+
+
+
+<p id="gdcalert8" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image8.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert9">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+
+![alt_text](images/image8.png "image_tooltip")
+
+
+The network can already see that there is _something_, but what that something is, it hasn’t yet learned!
 
 
 ### 30 epochs
 
-Next, we train 
-
-Does not give back losses.
+Next, we train for 30 epochs. We chose this number to be comparable to the DeepLab training. The results are already better. Recall and precision are still both low, but at least no longer zero!
 
 
 ```
@@ -233,23 +298,30 @@ IoU metric: segm
 ```
 
 
+The network is learning! Some output:
+
+
+
+<p id="gdcalert9" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image9.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert10">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+
+![alt_text](images/image9.png "image_tooltip")
+
+
+Some observations: the network is mainly good at predicting when there is one large-ish object in the image, and it mainly predicts bottles and plastic bags and wrappers. This is not so strange, because as we can see from Figure [X], these are some of the most common classes.
+
 
 ### Augmented 30 epochs
 
-
-# U-net 
-
-
-### About U-net
-
-U-Net is a convolutional neural network that was developed for the classification of images in biomedical tasks and designed to work with fewer training images while yielding more precise segmentations. The architecture proved to generalize very well and is also successfully applied in a wide variety of tasks, such as pixel-wise regression, learning 3D segmentations and image segmentation on imagenet. We thus had good hopes for U-net to perform well on the TACO dataset.
-
-For this experiment, we adapted a pytorch U-net implementation that was made for the reproduction project of the course CS4240. The original report and code for that project can be found on [reproducedpapers.org](https://reproducedpapers.org/papers/HCCpp9BNEnUl0z6moLmg#rztA9goB4I5S1YB8Ah4up). The U-net implementation required a few minor adaptations in order to handle the TACO dataset but is otherwise completely the same. 
+At this point in time, we wanted to see whether using data augmentation could improve the predictions of our model. We had seen that for DeepLab, random cropping alone did not help to improve the results much. Therefore, we added more augmentations: additive Gaussian noise, Gaussian blur, a horizontal flip (applied with probability 0.5) and a vertical flip (applied with probability 0.5). These augmentations are also used by the authors of TACO in their own implementation of Mask R-CNN, and correspond to variations you would also expect to see ‘in the wild’. Figure [X] shows an augmented and a non-augmented version of an image.
 
 
-### Training
 
-Training U-Net for the TACO dataset turned out to be a bumpy road to nowhere. After some initial training rounds, using SGD with a learning rate of 0.0001 and momentum of 0.99, the output seemed to converge at a consistent ‘all is background-class’ prediction for each and every pixel. The learning curve also showed consistent convergence of the validation loss around a loss of about 0.3: 
+<p id="gdcalert10" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image10.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert11">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+
+![alt_text](images/image10.png "image_tooltip")
+
 
 
 
@@ -257,35 +329,49 @@ Training U-Net for the TACO dataset turned out to be a bumpy road to nowhere. Af
 
 
 ![alt_text](images/image11.png "image_tooltip")
+  
 
 
-Unsure if perhaps something had gone wrong in adapting the implementation we tried to overfit the network on a single image, which did work. The network was completely able to reproduce a single output, as can be seen in the image below. The top image is the original label, the bottom is the network prediction after overfitting of a dataset of only this image (due to the unpadded convolutions, the output is cropped to some extent).
+### Discussion
 
 
+# U-net 
 
-<p id="gdcalert12" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image12.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert13">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+### About U-net
+
+U-Net[^8] is a convolutional neural network that was developed for the classification of images in biomedical tasks and designed to work with fewer training images while yielding more precise segmentations. The architecture proved to generalize very well and is also successfully applied in a wide variety of tasks, such as pixel-wise regression[^9], learning 3D segmentations[^10] and image segmentation on ImageNet[^11]. We thus had good hopes for U-net to perform well on the TACO dataset.
+
+For this experiment, we adapted our Pytorch U-net implementation we made for the reproduction project of the TU Delft Deep Learning course (CS4240). The original report and code for that project can be found on [reproducedpapers.org](https://reproducedpapers.org/papers/HCCpp9BNEnUl0z6moLmg#rztA9goB4I5S1YB8Ah4up). The U-net implementation required a few minor adaptations in order to handle the TACO dataset, such as the dimensions of the output layer and adaptations to the loss function to ignore the 255 class (which TACO uses for overlapping/unclear classes, but would cause complications in PyTorch). Aside from these changes we have stuck to the implementation of the reproduction. Images were zero-padded as u-net shrinks dimensions due to the non-padded convolutions. The original work pads by mirroring the image at the borders, but we considered that less appropriate for non-biomedical images (one can imagine this could result in oddly-shaped trash).
 
 
-![alt_text](images/image12.png "image_tooltip")
- 
+### Training
+
+Training U-Net for the TACO dataset turned out to be a bumpy road to nowhere. After some initial training rounds, using SGD with a learning rate of 0.0001 and momentum of 0.99, the output seemed to converge at a consistent ‘all is background-class’ prediction for each and every pixel. The learning curve also showed consistent convergence of the validation loss around a loss of about 0.3, this can be observed in Figure [X]
+
+![alt_text](figs/unet_training_alldataset10eps_convergesat0p3.png "Learning curve U-net")
+
+Figure [X]: learning curve of U-net on the TACO dataset,the validation loss converges around 0.3.
+
+Unsure if perhaps something had gone wrong in adapting the implementation we tried to overfit the network on a single image, which did work. The network was completely able to reproduce a single output, as can be seen in Figure [X]. The top image is the original label, the bottom is the network prediction after overfitting of a dataset of only this image (due to the unpadded convolutions, the output is cropped to some extent).
+
+![Overfitted output](figs/unet_overfitted.png "Overfitted output")
+
+Figure [X]: Segmentation mask produced by U-Net overfit one a single image. The top image is the ground-truth segmentation mask, the bottom image is the network prediction.
 
 At first we tried to remedy this issue using different optimizers during training, such as Adadelta, but to no avail. Tweaking the learning rate and the learning rate scheduler did not change the all-background predictions into anything more meaningful either. 
 
-At this point, we started to suspect that the large class imbalance in the dataset, combined with the large variety within classes, was hindering the learning. For example, the largest superclass, ‘Plastic bag & wrapper’, contains garbage bags, potato chips bags, transparent plastic bags and small pieces of wrapper. These are all very different yet belong to the same class, of which not too many samples were present anyway: even though it is the largest superclass, it contains a little over 400 images. In addition, in a lot of images, the annotated parts are very small:
+At this point, we started to suspect that the large class imbalance in the dataset, combined with the large variety within classes, was hindering the learning. For example, the largest superclass, ‘Plastic bag & wrapper’, contains garbage bags, potato chips bags, transparent plastic bags and small pieces of wrapper. These are all very different yet belong to the same class, of which not too many samples were present anyway: even though it is the largest superclass, it contains a little over 400 images. In addition, in a lot of images, the annotated parts are very small, see Figure [X].
 
+&lt;p float="left">
 
+  &lt;img src="figs/example_smol1.png" width="45%" />
 
-<p id="gdcalert13" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image13.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert14">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+  &lt;img src="figs/example_smol2.png" width="45%" />
 
+&lt;/p>
 
-![alt_text](images/image13.png "image_tooltip")
-
-
-<p id="gdcalert14" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image14.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert15">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/image14.png "image_tooltip")
-
+Figure X: Examples from TACO with very small litter items.
 
 After inspecting such images, one might see why the network would find a comfortable local minimum when predicting “all background” for each sample. We started to suspect that U-Net, with its large number of parameters was a bit too much of a beast for the delicately composed and rather small TADO dataset. We therefore augmented the dataset, using random crops and random rotations. Unfortunately, this did not help either. The validation loss continued to settle for roughly a 0.3 loss and upon inspection, all predictions on the test set would still be “all background”. Learning with data augmentation on a single class did not bring any relief either. We therefore have to conclude that the U-Net architecture, although robust, generalizable and designed for smaller datasets, is an insufficient architecture to capture the intricacies of this small dataset with large variety.
 
@@ -297,6 +383,12 @@ After eliminating various reasons for the consistent convergence at local minima
 
 # Discussion & Conclusion
 
+Our original goal with this project was to compare the performance of three different image segmentation models on a small, imbalanced dataset, and investigate how different data augmentation techniques could help remedy the class imbalances. 
+
+During the project, we encountered a number of issues. It turns out that training models on “non-standard” datasets is less trivial than we initially thought. Both the dataset and some of the models required quite a bit of tweaking to play nice together. Even then, comparing outputs is difficult: t-Mask R-CNN does not return training or evaluation losses, DeepLab and U-Net do not return AP metrics.
+
+This relates to a problem with our approach: too much experimentation and not enough structure. In the beginning of our project, we were very focused on exploring the options and making the different models work with our dataset. However, this caused us to lose sight of the overall picture: how we would compare the results and how we would systematically investigate the effect of different data augmentations. It is an important lesson to draw: experimentation and exploration is important, but it must be backed up by a more structured plan.
+
 From our training we conclude that for the task of trash detection with the TACO dataset, Mask RCNN is most successful. Unet, despite it’s attractive features, was not able to learn from the dataset.
 
 
@@ -307,7 +399,7 @@ From our experiences with the TACO dataset we formulate the following recommenda
 
 ### Add more samples to the dataset
 
-The dataset in its current form is rather small, which is, in essence, relatively easy to remedy: add more samples. However, due to the labor-intensive annotation system, we understand that this is more easier said than done. 
+The dataset in its current form is rather small, which is, in essence, relatively easy to remedy: add more samples. However, due to the labor-intensive annotation system, we understand that this is easier said than done. 
 
 
 ### Balance classes
@@ -766,4 +858,34 @@ IoU per class:
 ## Notes
 
 [^1]:
-     [https://www.reddit.com/r/MachineLearning/comments/cjekzr/p_taco_trash_annotations_in_context_dataset/](https://www.reddit.com/r/MachineLearning/comments/cjekzr/p_taco_trash_annotations_in_context_dataset/)
+     Hoornweg, D., & Bhada-Tata, P. (2012). What a waste: a global review of solid waste management.
+
+[^2]:
+     Design, A., Shovava, Day, T., Comma, & Colorsheets, V. (2019, May 13). Chicago Has Launched a Trash-Eating River Robot That Anyone Can Pilot Remotely. Retrieved July 01, 2020, from https://mymodernmet.com/trash-collecting-robot-chicago-river/
+
+[^3]:
+     The Ocean Cleanup. (2020, June 26). Retrieved July 01, 2020, from https://theoceancleanup.com/
+
+[^4]:
+     Rooma: Vergeet stofzuigen. (n.d.). Retrieved July 01, 2020, from https://www.irobot.nl/nl-NL/roomba/i-serie
+
+[^5]:
+     Pedro F Proença, & Pedro Simões (2020). TACO: Trash Annotations in Context for Litter DetectionarXiv preprint arXiv:2003.06975.
+
+[^6]:
+     [https://cocodataset.org/#format-data](https://cocodataset.org/#format-data)
+
+[^7]:
+     Chen, L. C., Papandreou, G., Schroff, F., & Adam, H. (2017). Rethinking atrous convolution for semantic image segmentation. _arXiv preprint arXiv:1706.05587_.
+
+[^8]:
+     Ronneberger, O., Fischer, P., & Brox, T. (2015). U-net: Convolutional networks for biomedical image segmentation. In International Conference on Medical image computing and computer-assisted intervention (pp. 234–241).
+
+[^9]:
+     Yao, W., Zeng, Z., Lian, C., & Tang, H. (2018). Pixel-wise regression using U-Net and its application on pansharpeningNeurocomputing, 312, 364–371.
+
+[^10]:
+     Abdulkadir, A., Lienkamp, S., Brox, T., & Ronneberger, O. (2016). 3D U-Net: learning dense volumetric segmentation from sparse annotation. In International conference on medical image computing and computer-assisted intervention (pp. 424–432).
+
+[^11]:
+     Iglovikov, V., & Shvets, A. (2018). Ternausnet: U-net with vgg11 encoder pre-trained on imagenet for image segmentation, arXiv preprint arXiv:1801.05746.
